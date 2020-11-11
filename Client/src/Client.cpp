@@ -13,7 +13,8 @@ using namespace std;
 /**
 * This code assumes that the server replies the exact text the client sent it (as opposed to the practical session example)
 */
-int main (int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
     std::string input;
     UserBookData user;
@@ -25,7 +26,7 @@ int main (int argc, char *argv[]) {
         input = "";
         std::getline(std::cin, input);
         if (input.find("login") == std::string::npos)
-            std::cout << "Error please login again"<<endl;
+            std::cout << "Error please login again" << endl;
         else
         {
             std::pair<std::string, short> address = processor.get_host(input);
@@ -43,25 +44,28 @@ int main (int argc, char *argv[]) {
                 {
                     break;
                 }
-                if (pProtocol->isLoggedIn()) {
+                if (pProtocol->isLoggedIn())
+                {
                     user.setName(input);
                     break;
                 }
             }
         }
     }
-    if (pProtocol->get_should_Disconnect()== false) {
+    if (pProtocol->get_should_Disconnect() == false)
+    {
         ConnectThread task(*pHandler, *pProtocol);
         std::thread threadMsgFromServer(task);
 
-
-        while (true && pProtocol->get_should_Disconnect() == false) {
+        while (true && pProtocol->get_should_Disconnect() == false)
+        {
 
             input = "";
             std::getline(std::cin, input);
             std::string msgOut = processor.process(input);
             pHandler->sendFrameAscii(msgOut, '\0');
-            if ((input.find("logout") != std::string::npos)) {
+            if ((input.find("logout") != std::string::npos))
+            {
                 break;
             }
         }
